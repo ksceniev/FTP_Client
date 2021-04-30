@@ -15,6 +15,7 @@ passwd = str(input('[*] Please insert PASS: '))
 ftp = FTP(host=ip, user=user, passwd=passwd)
 ftp.set_debuglevel(2)
 print(ftp.getwelcome())
+print('[*]?/help')
 ftp.cwd('/')
 
 def get_file():
@@ -28,7 +29,10 @@ while True:
         command = str(input('ftp> '))
         command_list = command.split(' ')
 
-        if command == 'ls' or command == 'dir':
+        if command == '?' or command == 'help':
+            print('Commands:\n\n- ls, dir -> List the current directory\n- cd <DIRECTORY> -> Change to chosen directory\n- get <FILENAME> -> Download FILENAME from the server\n- exit -> Quit FTP connection\n')
+
+        elif command == 'ls' or command == 'dir':
             ftp.retrlines('LIST')
         
         elif command_list[0] == 'cd':
