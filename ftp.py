@@ -18,10 +18,16 @@ print(ftp.getwelcome())
 print('[*]?/help')
 ftp.cwd('/')
 
-def get_file():
+def download_file():
     filename = command_list[-1]
     localfile = open(filename, 'wb')
     ftp.retrbinary('RETR {}'.format(filename), localfile.write, 2048)
+    localfile.close()
+
+def upload_file():
+    filename = command_list[-1]
+    localfile = open(filename, 'rb')
+    ftp.storbinary('STOR {}'.format(filename), localfile.read, 2048)
     localfile.close()
 
 while True:
@@ -37,8 +43,11 @@ while True:
         
         elif command_list[0] == 'cd':
             ftp.cwd(command_list[-1])
+        
         elif command_list[0] == 'get':
-            get_file()
+            download_file()
+        elif command_list[0] == 'put':
+            upload_file()
 
         elif command == 'exit' or command == 'bye':
             ftp.quit()
